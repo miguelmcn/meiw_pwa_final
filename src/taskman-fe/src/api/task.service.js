@@ -1,0 +1,81 @@
+import API_URL from './config.js'
+
+export const TaskService = {
+  async getTasks(token) {
+    let response = await fetch(`${API_URL}/tasks`, {
+      method: "GET",
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': token + 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwayI6InA0dXVycGc0NnI2MzZmYzYxNjkwZjVkZDAwMDRjN2RiNTciLCJpYXQiOjE3MDY3MzAxODIsImV4cCI6MTcwNjc0NTE4MiwiaXNzIjoiTU4ifQ.oWGVAknJhPrHv6V5YUcJ46cqHQ98-7DRw0BKfFXRNMc'
+      }
+    });
+    if (response.ok) {
+      return await response.json();
+    } else {
+      throw Error(handleResponses(response.status));
+    }
+  },
+
+  async addTask(token, payload) {
+    const response = await fetch(`${API_URL}/tasks`, {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': token + 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwayI6InA0dXVycGc0NnI2MzZmYzYxNjkwZjVkZDAwMDRjN2RiNTciLCJpYXQiOjE3MDY3MzAxODIsImV4cCI6MTcwNjc0NTE4MiwiaXNzIjoiTU4ifQ.oWGVAknJhPrHv6V5YUcJ46cqHQ98-7DRw0BKfFXRNMc'
+      },
+      body: JSON.stringify(payload)
+    })
+    if (response.ok) {
+      return await response.json();
+    } else {
+      throw Error(handleResponses(response.status));
+    }
+  },
+
+  async editTask(token, payload) {
+    const response = await fetch(`${API_URL}/tasks/${payload._id}`, {
+      method: "PUT",
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': token
+      },
+      body: JSON.stringify(payload)
+    });
+    if (response.ok) {
+      return await response.json();
+    } else {
+      throw Error(handleResponses(response.status));
+    }
+  },
+  
+  async removeTask(token, id) {
+    const response = await fetch(`${API_URL}/tasks/${id}`, {
+      method: "DELETE",
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': token
+      }
+    });
+    if (response.ok) {
+      return await response.json();
+    } else {
+      throw Error(handleResponses(response.status));
+    }
+  }
+
+};
+
+function handleResponses(code) {
+  let message = ""
+  switch (code) {
+    case 401:
+      message = "Não está autorizado a executar esta ação!"
+      break;
+    default:
+      message = "Mensagem desconhecida"
+      break;
+  }
+  return message
+}
+
+export default TaskService;
