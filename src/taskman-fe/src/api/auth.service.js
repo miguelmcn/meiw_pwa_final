@@ -33,7 +33,8 @@ export const authService = {
     if (response.ok) {
       return await response.json();
     } else {
-      throw Error(handleResponses(response.status));
+      if (response.status != 401)
+        throw Error(handleResponses(response.status));
     }
   },
   async getInfo(token) {

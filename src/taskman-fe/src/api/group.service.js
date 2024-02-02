@@ -1,4 +1,5 @@
 import API_URL from './config.js'
+import router from "@/router";
 
 export const GroupService = {
   async getGroups(token) {
@@ -12,7 +13,10 @@ export const GroupService = {
     if (response.ok) {
       return await response.json();
     } else {
-      throw Error(handleResponses(response.status));
+      if (response.status != 401)
+        throw Error(handleResponses(response.status));
+      else
+        router.push({ name: "login" });
     }
   },
 
@@ -28,7 +32,10 @@ export const GroupService = {
     if (response.ok) {
       return await response.json();
     } else {
-      throw Error(handleResponses(response.status));
+      if (response.status != 401)
+        throw Error(handleResponses(response.status));
+        else
+          router.push({ name: "login" });
     }
   },
 
@@ -44,10 +51,13 @@ export const GroupService = {
     if (response.ok) {
       return await response.json();
     } else {
-      throw Error(handleResponses(response.status));
+      if (response.status != 401)
+        throw Error(handleResponses(response.status));
+        else
+          router.push({ name: "login" });
     }
   },
-  
+
   async removeGroup(token, id) {
     const response = await fetch(`${API_URL}/groups/${id}`, {
       method: "DELETE",
@@ -59,7 +69,10 @@ export const GroupService = {
     if (response.ok) {
       return await response.json();
     } else {
-      throw Error(handleResponses(response.status));
+      if (response.status != 401)
+        throw Error(handleResponses(response.status));
+        else
+          router.push({ name: "login" });
     }
   }
 
@@ -69,7 +82,7 @@ function handleResponses(code) {
   let message = ""
   switch (code) {
     case 401:
-      message = "Não está autorizado a executar esta ação!"
+      router.push({ name: "login" });
       break;
     default:
       message = "Mensagem desconhecida"

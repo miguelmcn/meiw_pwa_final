@@ -7,8 +7,7 @@ import {
   REMOVE_GROUP, 
   // Mutations
   SET_GROUPS, 
-  SET_MESSAGE,
-  UPDATE_LIKES 
+  SET_MESSAGE
 } from "./group.constants";
 
 const state = {
@@ -23,9 +22,9 @@ const getters = {
 };
 
 const actions = {
-  [FETCH_GROUPS]: ({ commit, rootState }) => {
+  [FETCH_GROUPS]: ({ commit }) => {
     return new Promise((resolve, reject) => {
-      groupService.getGroups(rootState.auth.token)
+      groupService.getGroups(localStorage.STORAGE_ACCESS_TOKEN)
         .then(
           res => {
             commit(SET_GROUPS, res.body);
@@ -37,9 +36,9 @@ const actions = {
           });
     })
   },
-  [ADD_GROUP]: ({ commit, rootState }, payload) => {
+  [ADD_GROUP]: ({ commit }, payload) => {
     return new Promise((resolve, reject) => {
-      groupService.addGroup(rootState.auth.token, payload)
+      groupService.addGroup(localStorage.STORAGE_ACCESS_TOKEN, payload)
         .then(
           res => {
             commit(SET_MESSAGE, `O grupo ${res.body.name} foi adicionado com sucesso!`);
@@ -50,9 +49,9 @@ const actions = {
           });
     });
   },
-  [EDIT_GROUP]: ({ commit, rootState }, payload) => {
+  [EDIT_GROUP]: ({ commit }, payload) => {
     return new Promise((resolve, reject) => {
-      groupService.editGroup(rootState.auth.token, payload)
+      groupService.editGroup(localStorage.STORAGE_ACCESS_TOKEN, payload)
         .then(
           res => {
             commit(SET_MESSAGE, `O grupo ${res.body.name} foi atualizado com sucesso!`);
@@ -63,9 +62,9 @@ const actions = {
           });
     });
   },
-  [REMOVE_GROUP]: ({ commit, rootState }, id) => {
+  [REMOVE_GROUP]: ({ commit }, id) => {
     return new Promise((resolve, reject) => {
-      groupService.removeGroup(rootState.auth.token, id)
+      groupService.removeGroup(localStorage.STORAGE_ACCESS_TOKEN, id)
         .then(res => {
           commit(SET_MESSAGE, `O grupo foi removido com sucesso!`);
           resolve(res)
@@ -80,7 +79,10 @@ const actions = {
 export const mutations = {
   [SET_GROUPS]: (state, groups) => {
     state.groups = groups;
-  }
+  },
+  [SET_MESSAGE]: (state, message) => {
+    state.message = message;
+  },
 };
 
 export default {

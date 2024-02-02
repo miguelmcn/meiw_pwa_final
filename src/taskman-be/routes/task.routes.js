@@ -12,7 +12,7 @@ const AuthController = require("../controllers/auth.controller");
 router.route('/')
     .get(AuthController.checkAuth, TaskController.get)
     .post(AuthController.checkAuth, [
-        body('name').isAlphanumeric(),
+        body('name').isString(),
         body('description').isString(),
         body('creationDate').isString(),
         body('dueDate').isString(),

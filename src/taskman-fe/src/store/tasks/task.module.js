@@ -8,11 +8,11 @@ import {
   // Mutations
   SET_TASKS, 
   SET_MESSAGE,
-  UPDATE_LIKES 
 } from "./task.constants";
 
 const state = {
-  tasks: []
+  tasks: [],
+  message: ""
 };
 
 const getters = {
@@ -23,9 +23,9 @@ const getters = {
 };
 
 const actions = {
-  [FETCH_TASKS]: ({ commit, rootState }) => {
+  [FETCH_TASKS]: ({ commit }) => {
     return new Promise((resolve, reject) => {
-      taskService.getTasks(rootState.auth.token)
+      taskService.getTasks(localStorage.STORAGE_ACCESS_TOKEN)
         .then(
           res => {
             commit(SET_TASKS, res.body);
@@ -37,9 +37,9 @@ const actions = {
           });
     })
   },
-  [ADD_TASK]: ({ commit, rootState }, payload) => {
+  [ADD_TASK]: ({ commit }, payload) => {
     return new Promise((resolve, reject) => {
-      taskService.addTask(rootState.auth.token, payload)
+      taskService.addTask(localStorage.STORAGE_ACCESS_TOKEN, payload)
         .then(
           res => {
             commit(SET_MESSAGE, `O tarefa ${res.body.name} foi adicionada com sucesso!`);
@@ -50,9 +50,9 @@ const actions = {
           });
     });
   },
-  [EDIT_TASK]: ({ commit, rootState }, payload) => {
+  [EDIT_TASK]: ({ commit }, payload) => {
     return new Promise((resolve, reject) => {
-      taskService.editTask(rootState.auth.token, payload)
+      taskService.editTask(localStorage.STORAGE_ACCESS_TOKEN, payload)
         .then(
           res => {
             commit(SET_MESSAGE, `O tarefa ${res.body.name} foi atualizado com sucesso!`);
@@ -63,9 +63,9 @@ const actions = {
           });
     });
   },
-  [REMOVE_TASK]: ({ commit, rootState }, id) => {
+  [REMOVE_TASK]: ({ commit }, id) => {
     return new Promise((resolve, reject) => {
-      taskService.removeTask(rootState.auth.token, id)
+      taskService.removeTask(localStorage.STORAGE_ACCESS_TOKEN, id)
         .then(res => {
           commit(SET_MESSAGE, `O tarefa foi removido com sucesso!`);
           resolve(res)
@@ -80,7 +80,10 @@ const actions = {
 export const mutations = {
   [SET_TASKS]: (state, tasks) => {
     state.tasks = tasks;
-  }
+  },
+  [SET_MESSAGE]: (state, message) => {
+    state.message = message;
+  },
 };
 
 export default {

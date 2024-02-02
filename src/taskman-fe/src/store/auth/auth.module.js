@@ -26,7 +26,7 @@ const state = {
 
 // getters
 const getters = {
-  isUserLoggedIn: state => state.token != "",
+  isUserLoggedIn: () => localStorage.STORAGE_USER_PROFILE != null,
   getProfileName: state => state.profile.name,
   getUserType: state => state.profile.type,
   getProfile: state => state.profile,
@@ -41,7 +41,6 @@ const actions = {
       .login(payload)
       .then(res => {
           commit(AUTH_LOGIN_SUCCESS, {token: res.token, profile: res.profile});
-          commit(SET_MESSAGE, `Bem-vindo, ${res.profile.name}!`);
           resolve(res);
       })
       .catch(err => reject(err))
@@ -49,16 +48,16 @@ const actions = {
     })
   },
 
-//   [AUTH_REGISTER]: async ({ commit }, payload) => {
-//     return new Promise((resolve, reject) => {
-//       authService.register(payload)
-//       .then(res => {
-//           commit(SET_MESSAGE, `O utilizador ${res.body.name} foi adicionado com sucesso!`);
-//           resolve(res);
-//       })
-//       .catch(err => reject(err))
-//     });
-//   },
+  [AUTH_REGISTER]: async ({ commit }, payload) => {
+    return new Promise((resolve, reject) => {
+      authService.register(payload)
+      .then(res => {
+          commit(SET_MESSAGE, `O utilizador ${res.body.name} foi adicionado com sucesso!`);
+          resolve(res);
+      })
+      .catch(err => reject(err))
+    });
+  },
 
   [AUTH_INFO]: async ({ commit }) => {
     commit(
@@ -74,21 +73,29 @@ const actions = {
 export const mutations = {
   [AUTH_LOGIN_SUCCESS]: (state, data) => {
     state.token = data.token;
+    sessionStorage.STORAGE_ACCESS_TOKEN = data.token;
     localStorage.STORAGE_ACCESS_TOKEN = data.token;
+    
     state.profile = data.profile;
+    sessionStorage.STORAGE_USER_PROFILE = JSON.stringify(data.profile);
     localStorage.STORAGE_USER_PROFILE = JSON.stringify(data.profile);
   },
 
   [AUTH_LOGOUT_SUCCESS]: state => {
     state.token = "";
-    state.profile = {};
-    localStorage.removeItem(STORAGE_ACCESS_TOKEN);
-    localStorage.removeItem(STORAGE_USER_PROFILE);
+    state.profile = {}; 
+    
+    sessionStorage.removeItem('STORAGE_ACCESS_TOKEN');
+    sessionStorage.removeItem('STORAGE_USER_PROFILE');
+
+    localStorage.removeItem('STORAGE_ACCESS_TOKEN');
+    localStorage.removeItem('STORAGE_USER_PROFILE');
   },
   [AUTH_REGISTER_SUCCESS]: (state, data) => {
     state.register = data;
   },
   [SET_MESSAGE]: (state, message) => {
+    state.token = sessionStorage.STORAGE_ACCESS_TOKEN,
     state.message = message;
   }
 };

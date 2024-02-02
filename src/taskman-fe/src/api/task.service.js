@@ -1,4 +1,5 @@
 import API_URL from './config.js'
+import router from "@/router";
 
 export const TaskService = {
   async getTasks(token) {
@@ -6,13 +7,16 @@ export const TaskService = {
       method: "GET",
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': token + 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwayI6InA0dXVycGc0NnI2MzZmYzYxNjkwZjVkZDAwMDRjN2RiNTciLCJpYXQiOjE3MDY3MzAxODIsImV4cCI6MTcwNjc0NTE4MiwiaXNzIjoiTU4ifQ.oWGVAknJhPrHv6V5YUcJ46cqHQ98-7DRw0BKfFXRNMc'
+        'Authorization': token
       }
     });
     if (response.ok) {
       return await response.json();
     } else {
+      if (response.status != 401)
       throw Error(handleResponses(response.status));
+      else
+        router.push({ name: "login" });
     }
   },
 
@@ -21,14 +25,17 @@ export const TaskService = {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': token + 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwayI6InA0dXVycGc0NnI2MzZmYzYxNjkwZjVkZDAwMDRjN2RiNTciLCJpYXQiOjE3MDY3MzAxODIsImV4cCI6MTcwNjc0NTE4MiwiaXNzIjoiTU4ifQ.oWGVAknJhPrHv6V5YUcJ46cqHQ98-7DRw0BKfFXRNMc'
+        'Authorization': token
       },
       body: JSON.stringify(payload)
     })
     if (response.ok) {
       return await response.json();
     } else {
+      if (response.status != 401)
       throw Error(handleResponses(response.status));
+      else
+        router.push({ name: "login" });
     }
   },
 
@@ -44,7 +51,10 @@ export const TaskService = {
     if (response.ok) {
       return await response.json();
     } else {
+      if (response.status != 401)
       throw Error(handleResponses(response.status));
+      else
+        router.push({ name: "login" });
     }
   },
   
@@ -59,7 +69,10 @@ export const TaskService = {
     if (response.ok) {
       return await response.json();
     } else {
+      if (response.status != 401)
       throw Error(handleResponses(response.status));
+      else
+        router.push({ name: "login" });
     }
   }
 
@@ -69,7 +82,7 @@ function handleResponses(code) {
   let message = ""
   switch (code) {
     case 401:
-      message = "Não está autorizado a executar esta ação!"
+      router.push({ name: "login" });
       break;
     default:
       message = "Mensagem desconhecida"

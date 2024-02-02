@@ -15,8 +15,7 @@ const taskSchema = new Schema({
         default: Date.now
     },
     completionDate: {
-        type: Date,
-        default: Date.now
+        type: Date
     },
     status: String,
     assign:  [{

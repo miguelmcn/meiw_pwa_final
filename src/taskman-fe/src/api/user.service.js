@@ -1,4 +1,5 @@
 import API_URL from './config.js'
+import router from "@/router";
 
 export const userService = {
   async getUsers(token) {
@@ -12,7 +13,10 @@ export const userService = {
     if (response.ok) {
       return await response.json();
     } else {
+      if (response.status != 401)
       throw Error(handleResponses(response.status));
+      else
+        router.push({ name: "login" });
     }
   },  
 };
@@ -21,7 +25,7 @@ function handleResponses(code) {
   let message = ""
   switch (code) {
     case 401:
-      message = "Não está autorizado a executar esta ação!"
+      router.push({ name: "login" });
       break;
     case 406:
       message = "Ação não aceitável. Verifique se preencheu bem todos os campos!"

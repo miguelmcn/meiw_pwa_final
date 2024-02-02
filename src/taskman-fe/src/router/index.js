@@ -6,11 +6,18 @@ Vue.use(VueRouter);
 const routes = [
     {
         path: "/",
-        name: "tasks",
+        name: "tasksHome",
         component: () => import("@/views/Tasks/Tasks.vue"),
         meta: {
             rule: "user"
-        }
+        },
+        beforeEnter: (to, from, next) => {
+            if (isLoggedIn()) {
+              next();
+            } else {
+              next('/login');
+            }
+          },
     },
     {
         path: "/login",
@@ -23,7 +30,14 @@ const routes = [
         component: () => import("@/views/Tasks/Task.vue"),
         meta: {
             rule: "user"
-        }
+        },
+        beforeEnter: (to, from, next) => {
+            if (isLoggedIn()) {
+              next();
+            } else {
+              next('/login');
+            }
+          },
     },
     {
         path: "/tasks",
@@ -31,7 +45,14 @@ const routes = [
         component: () => import("@/views/Tasks/Tasks.vue"),
         meta: {
             rule: "user"
-        }
+        },
+        beforeEnter: (to, from, next) => {
+            if (isLoggedIn()) {
+              next();
+            } else {
+              next('/login');
+            }
+          },
     },
     {
         path: "/groups",
@@ -39,22 +60,47 @@ const routes = [
         component: () => import("@/views/Groups/Groups.vue"),
         meta: {
             rule: "user"
-        }
+        },
+        beforeEnter: (to, from, next) => {
+            if (isLoggedIn()) {
+              next();
+            } else {
+              next('/login');
+            }
+          },
     },
     {
-        path: "/groups/:groupId",
+        path: "/group/:groupId",
         name: "group",
         component: () => import("@/views/Groups/Group.vue"),
         meta: {
             rule: "user"
-        }
+        },
+        beforeEnter: (to, from, next) => {
+            if (isLoggedIn()) {
+              next();
+            } else {
+              next('/login');
+            }
+          },
     },
     // Redirect to 404 page, if no match found
     {
         path: "*",
-        component: () => import("@/views/Error404.vue")
+        component: () => import("@/views/Error404.vue"),
+        beforeEnter: (to, from, next) => {
+            if (isLoggedIn()) {
+              next();
+            } else {
+              next('/login');
+            }
+          },
     }
 ];
+
+function isLoggedIn() {    
+    return localStorage.STORAGE_ACCESS_TOKEN;
+  }
 
 const router = new VueRouter({
     mode: "history",

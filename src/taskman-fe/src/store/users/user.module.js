@@ -3,6 +3,9 @@ import {
   SET_USERS,
   SET_MESSAGE,
   FETCH_USERS,
+  ADD_USER,
+  EDIT_USER,
+  REMOVE_USER
 } from "./user.constants";
 
 const state = {
@@ -21,11 +24,50 @@ const getters = {
 };
 
 const actions = {
-  [FETCH_USERS]: async ({ commit, rootState }) => {
+  [FETCH_USERS]: async ({ commit }) => {
     return new Promise((resolve, reject) => {
-      userService.getUsers(rootState.auth.token).then(
+      userService.getUsers(localStorage.STORAGE_ACCESS_TOKEN).then(
         res => {
           commit(SET_USERS, res.body);
+          resolve(res);
+        },
+        err => reject(err)
+      );
+    });
+  },
+  [ADD_USER]: ({ commit }, payload) => {
+    return new Promise((resolve, reject) => {
+      userService.addUser(localStorage.STORAGE_ACCESS_TOKEN, payload).then(
+        res => {
+          commit(
+            SET_MESSAGE,
+            `O utilizador ${res.body.name} foi adicionado com sucesso!`
+          );
+          resolve(res);
+        },
+        err => reject(err)
+      );
+    });
+  },
+  [EDIT_USER]: ({ commit }, payload) => {
+    return new Promise((resolve, reject) => {
+      userService.editUser(localStorage.STORAGE_ACCESS_TOKEN, payload).then(
+        res => {
+          commit(
+            SET_MESSAGE,
+            `O utilizador ${res.body.name} foi atualizado com sucesso!`
+          );
+          resolve(res);
+        },
+        err => reject(err)
+      );
+    });
+  },
+  [REMOVE_USER]: ({ commit }, id) => {
+    return new Promise((resolve, reject) => {
+      userService.removeUser(localStorage.STORAGE_ACCESS_TOKEN, id).then(
+        res => {
+          commit(SET_MESSAGE, `O utilizador foi removido com sucesso!`);
           resolve(res);
         },
         err => reject(err)

@@ -21,6 +21,7 @@
         <div>
             <p v-if="task.important" style="float: left; font-weight: bold;">Importante!</p>
             <p class="align-right" :class="{ 'important-text': task.important, 'overdue-date': isDueDateOverdue() }" >Prazo: {{ task.dueDate | formatDate }}</p>
+            <p class="align-right" :class="{ 'important-text': task.important, 'overdue-date': isDueDateOverdue() }" v-if="task.status == 'done'" >Feito em: {{ task.completionDate | formatDate }}</p>
         </div>
 
     </div>
@@ -96,8 +97,13 @@ export default {
         },
         isDueDateOverdue: function () {
             const dueDate = new Date(this.task.dueDate);
+            const completionDate = new Date(this.task.completionDate);
             const today = new Date();
-            return dueDate <= today;
+
+            const openOverdue = this.task.status != "done" && dueDate <= today
+            const doneOverdue = this.task.status == "done" && dueDate < completionDate
+
+            return openOverdue || doneOverdue;
         }
     }
 };

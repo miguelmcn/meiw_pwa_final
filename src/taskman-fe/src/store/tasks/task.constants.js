@@ -6,4 +6,6 @@ export const EDIT_TASK = "editTask";
 export const REMOVE_TASK = "removeTask";
 
 export const SET_TASKS = "setTasks";
+export const SET_MESSAGE = "setMessage";
+
 
