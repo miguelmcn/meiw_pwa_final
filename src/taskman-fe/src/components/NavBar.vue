@@ -38,7 +38,6 @@ import { AUTH_LOGOUT_SUCCESS } from "@/store/auth/auth.constants";
 
 export default {
   computed: {
-    // ...mapGetters(["getUserLevelByPoints"]),
     ...mapGetters("auth", [
       "isUserLoggedIn",
       "getProfileName",

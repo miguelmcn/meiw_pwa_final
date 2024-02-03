@@ -3,7 +3,6 @@
     <b-container>
       <HeaderPage title="Gestão de Grupos" />
 
-      <!--MENU TOPO-->
       <b-row class="mb-4">
         <b-col cols="1"></b-col>
         <b-col>
@@ -14,7 +13,6 @@
         <b-col cols="1"></b-col>
       </b-row>
 
-      <!-- TABELA -->
       <b-row>
         <b-col cols="1"></b-col>
         <b-col>

@@ -5,14 +5,7 @@ module.exports = {
         collections: {
             task: 'tasks',
             group: 'groups',
-            user: 'users',
-
-            // animal: 'animals',
-            // sponsor: 'sponsors',
-            // specialist: 'specialists',
-            // question: 'questions',
-            // quiz: 'quizzes',            
-            // user_levels: "user_levels"
+            user: 'users'
         }
     },
     auth: {
@@ -23,11 +16,4 @@ module.exports = {
         alphabet: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzŠŒŽšœžŸ¥µÀÁÂÃÄÅÆÇÈÉÊËẼÌÍÎÏĨÐÑÒÓÔÕÖØÙÚÛÜÝßàáâãäåæçèéêëẽìíîïĩðñòóôõöøùúûüýÿ\\ ",
         numerical: "0123456789"
     }
-    // email: {
-    //     service: "Gmail",
-    //     auth: {
-    //         user: "mailserverpw@gmail.com",
-    //         pass: "ttxirdxzkafhcuel"
-    //     }
-    // }
 }

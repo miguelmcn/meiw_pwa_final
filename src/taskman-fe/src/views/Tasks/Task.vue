@@ -4,7 +4,6 @@
             <HeaderPage title="Criar Tarefa" v-if="this.$route.params.taskId == '0'" />
             <HeaderPage title="Atualizar Tarefa" v-if="this.$route.params.taskId != '0'" />
 
-            <!--FORM-->
             <b-row style="padding-top: 20px;">
                 <b-col cols="2"></b-col>
                 <b-col>

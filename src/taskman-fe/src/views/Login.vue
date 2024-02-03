@@ -3,7 +3,6 @@
     <b-container>
       <HeaderPage title="Login" />
 
-      <!--FORM-->
       <b-row>
         <b-col cols="4"></b-col>
         <b-col cols="4">

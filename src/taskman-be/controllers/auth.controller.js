@@ -49,7 +49,6 @@ exports.login = (req, res) => {
 }
 
 exports.checkAuth = (req, res, callback) => {
-    // return callback();
     let token = req.headers.authorization;
     if (!token) return res.status(AuthMessages.error.e1.http).send(AuthMessages.error.e1);
 
