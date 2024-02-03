@@ -1,5 +1,10 @@
 module.exports = {
     success: {
+        s0: {
+            http: 201,
+            code: "UserCreated",
+            type: "success"
+        },
         s2: {
             http: 200,
             code: "UserFound",
@@ -12,6 +17,11 @@ module.exports = {
         },
     },
     error: {
+        e0: {
+            http: 409,
+            code: "UsernameDuplicate",
+            type: "error"
+        },
         e1: {
             http: 404,
             code: "UserNotFound",

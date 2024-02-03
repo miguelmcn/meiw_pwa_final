@@ -58,8 +58,8 @@ function handleResponses(code) {
     case 403:
       message = "Dados das credenciais errados!";
       break;
-    case 406:
-      message = "Dados do utilizador já existentes!";
+    case 409:
+      message = "Nome de utilizador já existente!";
       break;
     default:
       message = "Mensagem desconhecida";

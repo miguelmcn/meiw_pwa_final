@@ -14,5 +14,14 @@ router.route('/')
 
 router.route('/:id')
     .get(AuthController.checkAuth, [param("id").isMongoId()], UserController.getOne)
-    
+
+router.route('/')
+    .post([body('name').isString(),
+        body('type').isAlpha(),
+        body('auth.username').isAlphanumeric(),
+        body('auth.password').isString(),
+        sanitizeBody('name').whitelist(CONFIG.sanitize.alphabet)
+    ], UserController.create)
+    .get(AuthController.checkAuth, UserController.get);
+
 module.exports = router;

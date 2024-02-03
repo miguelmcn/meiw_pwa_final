@@ -3,6 +3,8 @@ const {
     validationResult
 } = require('express-validator');
 const UserMessages = require("../messages/user.messages");
+const JWT = require("jsonwebtoken");
+const CONFIG = require("../config/config");
 
 exports.get = (req, res) => {
 
@@ -39,4 +41,43 @@ exports.getOne = (req, res) => {
 
 }
 
+exports.create = (req, res) => {
+    const errors = validationResult(req).array();
+    if (errors.length > 0) return res.status(406).send(errors);
 
+    console.log(req.body);
+
+    User.findOne({
+        "auth.username": req.body.auth.username
+    }, (error, user) => {        
+        if (error) throw error;
+        if (user) return res.status(UserMessages.error.e0.http).send(UserMessages.error.e0)
+
+        new User({
+            name: req.body.name,
+            type: req.body.type,
+            auth: {
+                username: req.body.auth.username,
+                password: req.body.auth.password
+            }
+        }).save((error, user) => {
+            if (error) throw error;
+
+            let payload = {
+                pk: user.auth.public_key
+            }
+
+            let options = {
+                expiresIn: CONFIG.auth.expiration_time,
+                issuer: CONFIG.auth.issuer
+            };
+
+            let token = JWT.sign(payload, user.auth.private_key, options);
+
+
+            let message = UserMessages.success.s0;
+            message.body = user;
+            return res.header("location", "/users/" + user._id).header("Authorization", token).status(message.http).send(message);
+        })
+    });
+}

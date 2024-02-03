@@ -1,12 +1,12 @@
 <template>
     <div class="kanban-task" draggable="true" :style="{ backgroundColor: getBackgroundColor() }">
-        
+
         <div>
             <p class="title" style="display: inline-block;">{{ task.name }}</p>
-            <router-link :to="{ name: 'editTask', params: { taskId: task._id } }" tag="button"
-                    class="btn edit-button">
-                    <i class="fas fa-edit"></i>
-                  </router-link>
+            <p style="display: inline-block;" v-if="task.assign.indexOf(user) > -1" >(minha)</p>
+            <router-link :to="{ name: 'editTask', params: { taskId: task._id } }" tag="button" class="btn edit-button">
+                <i class="fas fa-edit"></i>
+            </router-link>
         </div>
         <div>
             <p v-for="assign in task.assign" :key="assign" :style="{ backgroundColor: getRandomColor() }" class="tip">
@@ -20,8 +20,10 @@
         </div>
         <div>
             <p v-if="task.important" style="float: left; font-weight: bold;">Importante!</p>
-            <p class="align-right" :class="{ 'important-text': task.important, 'overdue-date': isDueDateOverdue() }" >Prazo: {{ task.dueDate | formatDate }}</p>
-            <p class="align-right" :class="{ 'important-text': task.important, 'overdue-date': isDueDateOverdue() }" v-if="task.status == 'done'" >Feito em: {{ task.completionDate | formatDate }}</p>
+            <p class="align-right" :class="{ 'important-text': task.important, 'overdue-date': isDueDateOverdue() }">Prazo:
+                {{ task.dueDate | formatDate }}</p>
+            <p class="align-right" :class="{ 'important-text': task.important, 'overdue-date': isDueDateOverdue() }"
+                v-if="task.status == 'done'">Feito em: {{ task.completionDate | formatDate }}</p>
         </div>
 
     </div>
@@ -64,13 +66,13 @@
     cursor: pointer;
     color: #3498db;
     font-weight: bold;
-  }
+}
 </style>
 
 <script>
 export default {
     name: "TaskComponent",
-    props: ["task"],
+    props: ["task", "user"],
     filters: {
         formatDate(value) {
             return new Date(value).toLocaleDateString("pt-pt");

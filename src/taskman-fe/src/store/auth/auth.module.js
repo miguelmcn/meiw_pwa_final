@@ -14,19 +14,19 @@ import { STORAGE_ACCESS_TOKEN, STORAGE_USER_PROFILE } from "../constants";
 const state = {
   message: "",
   token:
-    localStorage.getItem(STORAGE_ACCESS_TOKEN) ||
-    sessionStorage.getItem(STORAGE_ACCESS_TOKEN) ||
+    localStorage.STORAGE_ACCESS_TOKEN ||
+    sessionStorage.STORAGE_ACCESS_TOKEN ||
     "",
   profile: JSON.parse(
-    localStorage.getItem(STORAGE_USER_PROFILE) ||
-      sessionStorage.getItem(STORAGE_USER_PROFILE) ||
-      "{}"
+    localStorage.STORAGE_USER_PROFILE ||
+    sessionStorage.STORAGE_USER_PROFILE ||
+    "{}"
   )
 };
 
 // getters
 const getters = {
-  isUserLoggedIn: () => localStorage.STORAGE_USER_PROFILE != null,
+  isUserLoggedIn: state => state.token != "",
   getProfileName: state => state.profile.name,
   getUserType: state => state.profile.type,
   getProfile: state => state.profile,
@@ -38,24 +38,24 @@ const actions = {
   [AUTH_LOGIN]: async ({ commit }, payload) => {
     return new Promise((resolve, reject) => {
       authService
-      .login(payload)
-      .then(res => {
-          commit(AUTH_LOGIN_SUCCESS, {token: res.token, profile: res.profile});
+        .login(payload)
+        .then(res => {
+          commit(AUTH_LOGIN_SUCCESS, { token: res.token, profile: res.profile });
           resolve(res);
-      })
-      .catch(err => reject(err))
-      
+        })
+        .catch(err => reject(err))
+
     })
   },
 
   [AUTH_REGISTER]: async ({ commit }, payload) => {
     return new Promise((resolve, reject) => {
       authService.register(payload)
-      .then(res => {
+        .then(res => {
           commit(SET_MESSAGE, `O utilizador ${res.body.name} foi adicionado com sucesso!`);
           resolve(res);
-      })
-      .catch(err => reject(err))
+        })
+        .catch(err => reject(err))
     });
   },
 
@@ -63,7 +63,7 @@ const actions = {
     commit(
       SET_MESSAGE,
       await authService.getInfo(
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwayI6Ijljazdha2RqbTZ3NWRlMjllMTgwZDlmZWMwMDA0NDk5NTkxIiwiaWF0IjoxNTc1MTUxMTc4LCJleHAiOjE1NzUxNjYxNzgsImlzcyI6IkZDQSJ9.XSltMWtgSkrpg9JcU18ZJA5S4ZHLvFOCjGOQIo9O5Q4"
+        localStorage.STORAGE_ACCESS_TOKEN
       )
     );
   }
@@ -75,7 +75,7 @@ export const mutations = {
     state.token = data.token;
     sessionStorage.STORAGE_ACCESS_TOKEN = data.token;
     localStorage.STORAGE_ACCESS_TOKEN = data.token;
-    
+
     state.profile = data.profile;
     sessionStorage.STORAGE_USER_PROFILE = JSON.stringify(data.profile);
     localStorage.STORAGE_USER_PROFILE = JSON.stringify(data.profile);
@@ -83,8 +83,8 @@ export const mutations = {
 
   [AUTH_LOGOUT_SUCCESS]: state => {
     state.token = "";
-    state.profile = {}; 
-    
+    state.profile = {};
+
     sessionStorage.removeItem('STORAGE_ACCESS_TOKEN');
     sessionStorage.removeItem('STORAGE_USER_PROFILE');
 
@@ -95,7 +95,14 @@ export const mutations = {
     state.register = data;
   },
   [SET_MESSAGE]: (state, message) => {
-    state.token = sessionStorage.STORAGE_ACCESS_TOKEN,
+    state.token =  localStorage.getItem(STORAGE_ACCESS_TOKEN) ||
+    sessionStorage.getItem(STORAGE_ACCESS_TOKEN) ||
+    "";
+
+    state.profile = localStorage.getItem(STORAGE_USER_PROFILE) ||
+    sessionStorage.getItem(STORAGE_USER_PROFILE) ||
+    "{}";
+
     state.message = message;
   }
 };

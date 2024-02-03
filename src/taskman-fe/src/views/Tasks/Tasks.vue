@@ -3,7 +3,8 @@
         <div class="row">
             <div style="display: flex;">
                 <div style="display: flex; padding-left: 30px;">
-                    <router-link style="margin-left: 20px;" :to="{ name: 'editTask', params: { taskId: '0' } }" tag="button" class="btn btn-outline-success mr-2 mt-2">
+                    <router-link style="margin-left: 20px;" :to="{ name: 'editTask', params: { taskId: '0' } }" tag="button"
+                        class="btn btn-outline-success mr-2 mt-2">
                         <i class="fas fa-plus-square"></i> Nova Tarefa
                     </router-link>
                 </div>
@@ -12,21 +13,21 @@
                 <div class="kanban-column">
                     <h2>To Do</h2>
                     <p v-for="task in todoTasks" :key="task.id">
-                        <TaskComponent :task="task"></TaskComponent>
+                        <TaskComponent :task="task" :user="profileName"></TaskComponent>
                     </p>
                 </div>
 
                 <div class="kanban-column">
                     <h2>Doing</h2>
                     <p v-for="task in doingTasks" :key="task.id">
-                        <TaskComponent :task="task"></TaskComponent>
+                        <TaskComponent :task="task" :user="profileName"></TaskComponent>
                     </p>
                 </div>
 
                 <div class="kanban-column">
                     <h2>Done</h2>
                     <p v-for="task in doneTasks" :key="task.id">
-                        <TaskComponent :task="task"></TaskComponent>
+                        <TaskComponent :task="task" :user="profileName"></TaskComponent>
                     </p>
                 </div>
             </div>
@@ -89,11 +90,13 @@ export default {
     },
     data: function () {
         return {
+            profileName: {},
             tasks: []
         };
     },
     computed: {
         ...mapGetters("task", ["getTasks"]),
+        ...mapGetters("auth", ["getProfileName", "getState"]),
         todoTasks: function () {
             if (this.tasks == []) return [];
 
@@ -126,10 +129,11 @@ export default {
                     this.$alert(`${err.message}`, "Erro", "error");
                 }
             );
-        },
+        }
     },
     created() {
         this.fetchTasks();
+        this.profileName = this.getProfileName;
     }
 }
 </script>

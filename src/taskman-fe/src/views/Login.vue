@@ -31,13 +31,13 @@
             <button type="submit" class="btn btn-success mr-2">
               <i class="fas fa-sign-in-alt"></i> ENTRAR
             </button>
-            <!-- <router-link
+            <router-link
               :to="{ name: 'register' }"
               tag="button"
-              class="btn btn-danger"
+              class="btn btn-info"
             >
               <i class="fas fa-file-signature"></i> REGISTAR
-            </router-link> -->
+            </router-link>
           </form>
         </b-col>
         <b-col cols="4"></b-col>

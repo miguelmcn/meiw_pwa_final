@@ -108,7 +108,7 @@ export default {
               "Grupo removido!",
               "success"
             );
-            this.fetchUsers();
+            this.fetchGroups();
           });
         },
         () => {

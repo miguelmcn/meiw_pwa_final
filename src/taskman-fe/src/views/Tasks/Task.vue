@@ -32,7 +32,7 @@
 
                         <div class="form-group">
                             <label class="form-label ">Prazo</label>
-                            <input v-model="task.dueDate" type="date" class="form-control " id="txtDueDate"
+                            <input v-model="formattedDueDate" type="date" class="form-control " id="txtDueDate"
                                 placeholder="prazo" required />
                         </div>
 
@@ -56,9 +56,11 @@
                             <label class="form-label ">Assignar</label>
                             <select id="sltStatus" class="form-control " v-model="taskAssign">
                                 <option v-for="user in users" :key="user.id" :value="user.name">{{ user.name }}</option>
-                                <option v-for="group in groups" :key="group.id" :value="group.name">{{ group.name }}</option>
+                                <option v-for="group in groups" :key="group.id" :value="group.name">{{ group.name }}
+                                </option>
                             </select>
-                            <b-button class="btn btn-sm" style="float: right;" @click="task.assign.push(taskAssign)">
+                            <b-button class="btn btn-sm" style="float: right;" @click="task.assign.push(taskAssign)"
+                                :disabled="!taskAssign">
                                 <i class="fas fa-plus-square"></i>
                             </b-button>
 
@@ -66,7 +68,8 @@
                                 <p v-for="assign in task.assign" :key="assign"
                                     :style="{ backgroundColor: getRandomColor() }" class="tip" style="height: 40px;">
                                     {{ assign }}
-                                    <b-button class="btn btn-sm" @click="task.assign.splice(task.assign.indexOf(assign), 1)">
+                                    <b-button class="btn btn-sm"
+                                        @click="task.assign.splice(task.assign.indexOf(assign), 1)">
                                         <i class="fas fa-window-close"></i>
                                     </b-button>
                                 </p>
@@ -77,13 +80,14 @@
                             <label class="form-label ">Etiquetas</label>
                             <input v-model="taskLabel" type="text" class="form-control " id="txtLabel"
                                 placeholder="etiqueta" />
-                            <b-button class="btn btn-sm" style="float: right;" @click="task.labels.push(taskLabel)">
+                            <b-button class="btn btn-sm" style="float: right;" @click="task.labels.push(taskLabel)"
+                                :disabled="!taskLabel">
                                 <i class="fas fa-plus-square"></i>
                             </b-button>
 
                             <div class="form-group">
-                                <p v-for="label in task.labels" :key="label"
-                                    :style="{ backgroundColor: getRandomColor() }" class="tip" style="height: 40px;">
+                                <p v-for="label in task.labels" :key="label" :style="{ backgroundColor: getRandomColor() }"
+                                    class="tip" style="height: 40px;">
                                     {{ label }}
                                     <b-button class="btn btn-sm" @click="task.labels.splice(task.labels.indexOf(label), 1)">
                                         <i class="fas fa-window-close"></i>
@@ -128,8 +132,8 @@ export default {
                 description: "",
                 status: "todo",
                 important: false,
-                creationDate: new Date(),
-                dueDate: new Date(),
+                creationDate: new Date(Date.now()),
+                dueDate: new Date(Date.now()),
                 completionDate: null,
                 assign: [],
                 labels: []
@@ -139,7 +143,23 @@ export default {
     computed: {
         ...mapGetters("task", ["getTasksById", "getMessage"]),
         ...mapGetters("user", ["getUsers", "getMessage"]),
-        ...mapGetters("group", ["getGroups", "getMessage"])
+        ...mapGetters("group", ["getGroups", "getMessage"]),
+        formattedDueDate: {
+            get() {
+                return this.formatDate(this.task.dueDate);
+            },
+            set(value) {
+                this.task.dueDate = new Date(value);
+            }
+        },
+        formattedCompletionDate: {
+            get() {
+                return this.formatDate(this.task.completionDate);
+            },
+            set(value) {
+                this.task.completionDate = new Date(value);
+            }
+        }
     },
     methods: {
         add() {
@@ -169,6 +189,10 @@ export default {
             );
         },
         save() {
+            if (this.task.status === 'done' && !this.task.completionDate) {
+                this.task.completionDate = new Date(); 
+            }
+
             if (this.$route.params.taskId == '0') {
                 this.add();
             } else {
@@ -194,16 +218,24 @@ export default {
         getRandomColor: function () {
             const colors = ['#3498db', '#2ecc71', '#e74c3c']; // Blue, Green, Red
             return colors[Math.floor(Math.random() * colors.length)];
+        },
+        formatDate(date) {
+            date = new Date(date);
+            const year = date.getFullYear();
+            const month = (date.getMonth() + 1).toString().padStart(2, "0");
+            const day = date.getDate().toString().padStart(2, "0");
+            return `${year}-${month}-${day}`;
         }
     },
     created() {
+        this.fetchUsers();
+        this.fetchGroups();
+
         if (this.$route.params.taskId == '0') {
             return;
         }
 
         this.task = this.getTasksById(this.$route.params.taskId);
-        this.fetchUsers();
-        this.fetchGroups();
     }
 };
 </script>
