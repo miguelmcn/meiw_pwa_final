@@ -1,7 +1,7 @@
 module.exports = {
     mongodb: {
-        //uri: 'mongodb+srv://fcabook:fT73qsfEjZ7C@fcabook-jly7a.mongodb.net/test?retryWrites=true&w=majority',
-        uri: 'mongodb://localhost:27017/TaskMan',
+        uri: 'mongodb+srv://2302598:nEF2Gwqx809xO8Eu@mewipwafinal.i0yemtr.mongodb.net/TaskMan?retryWrites=true&w=majority',
+        // uri: 'mongodb://localhost:27017/TaskMan',
         collections: {
             task: 'tasks',
             group: 'groups',
