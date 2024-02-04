@@ -4,7 +4,7 @@
   "description": "This is the frontend for the TaskMan",
   "main": "index.js",
   "scripts": {
-    "serve": "vue-cli-service serve --port 8081",
+    "serve": "set NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service serve --port 8081",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
