@@ -1,0 +1,73 @@
+[{
+  "_id": {
+    "$oid": "636fc61690f5dd0004c7db57"
+  },
+  "active": true,
+  "name": "Admin",
+  "type": "admin",
+  "auth": {
+    "username": "admin",
+    "password": "$2a$04$wKnAbCIkTEdVjb6nr.82oukqwDKaYtHSaWLhVyZYZwq9ofJHcQr7W",
+    "public_key": "p4uurpg46r636fc61690f5dd0004c7db57",
+    "private_key": "e5khlcdfbpd636fc61690f5dd0004c7db57"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65b957c9f84d2657757760b7"
+  },
+  "active": true,
+  "name": "Miguel Nascimento",
+  "type": "user",
+  "auth": {
+    "username": "mn",
+    "password": "$2a$04$wKnAbCIkTEdVjb6nr.82oukqwDKaYtHSaWLhVyZYZwq9ofJHcQr7W",
+    "public_key": "p4uurpg46r636fc61690f5dd0004c7db57",
+    "private_key": "e5khlcdfbpd636fc61690f5dd0004c7db57"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65b957f2f84d2657757760b9"
+  },
+  "active": true,
+  "name": "Antonio Silva",
+  "type": "user",
+  "auth": {
+    "username": "as",
+    "password": "$2a$04$wKnAbCIkTEdVjb6nr.82oukqwDKaYtHSaWLhVyZYZwq9ofJHcQr7W",
+    "public_key": "p4uurpg46r636fc61690f5dd0004c7db57",
+    "private_key": "e5khlcdfbpd636fc61690f5dd0004c7db57"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65be12f92ee54116accf99f7"
+  },
+  "name": "André Raposo",
+  "type": "user",
+  "auth": {
+    "username": "ar",
+    "password": "$2a$04$UW4Qf.9RLvAL5EOHcQG3murIvu5csjhmn8Mvnz00tX1/JNolYWiZu",
+    "public_key": "dp9grx28vv465be12f92ee54116accf99f7",
+    "private_key": "1tgf31qhz5b65be12f92ee54116accf99f7"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65be1576081dda606079b9a8"
+  },
+  "name": "André Raposo",
+  "type": "user",
+  "auth": {
+    "username": "ar2",
+    "password": "$2a$04$qdyiIMSZoDvgmQQ/PHsoSer2ZQpmWQZu.raS16JwRW5PzJ3bjn0za",
+    "public_key": "wdrs1rljmq65be1576081dda606079b9a8",
+    "private_key": "f7zbf4eqtq565be1576081dda606079b9a8"
+  },
+  "__v": 0
+}]
