@@ -4,8 +4,8 @@
   "description": "This is the frontend for the TaskMan",
   "main": "index.js",
   "scripts": {
-    "serve": "set NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service serve --port 8081",
-    "build": "set SET NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service build",
+    "serve": "export NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service serve --port 8081",
+    "build": "export SET NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "author": "Miguel Nascimento",
