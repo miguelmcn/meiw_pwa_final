@@ -40,6 +40,9 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./src/taskman-be
     needs: build
     environment:
       name: 'Production'
