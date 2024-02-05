@@ -1,8 +1,8 @@
 <template>
     <section class="page-section">
         <b-container>
-            <HeaderPage title="Criar Tarefa" v-if="this.$route.params.groupId == '0'" />
-            <HeaderPage title="Atualizar Tarefa" v-if="this.$route.params.groupId != '0'" />
+            <HeaderPage title="Criar Grupo" v-if="this.$route.params.groupId == '0'" />
+            <HeaderPage title="Atualizar Grupo" v-if="this.$route.params.groupId != '0'" />
 
             <b-row style="padding-top: 20px;">
                 <b-col cols="2"></b-col>
@@ -93,7 +93,7 @@ export default {
         update() {
             this.$store.dispatch(`group/${EDIT_GROUP}`, this.$data.group).then(
                 () => {
-                    this.$alert(this.getMessage, "Tarefa atualizada!", "success");
+                    this.$alert(this.getMessage, "Grupo atualizado!", "success");
                     router.push({ name: "groups" });
                 },
                 err => {
